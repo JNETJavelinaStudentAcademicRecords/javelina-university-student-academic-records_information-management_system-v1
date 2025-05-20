@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Javelina Student Portal</title>
+    <style>
+        body {
+            font-family: Helvetica, Arial, sans-serif;
+            background-color: #003DA5; /* Blue */
+            margin: 0;
+            padding: 40px;
+            color: #ffffff; /* White */
+        }
+        h1, h2 {
+            color: #FFD700; /* Gold */
+            font-family: Helvetica, sans-serif;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            padding: 40px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border: 5px solid #FFD700; /* Gold border */
+            position: relative; /* For user info positioning */
+        }
+        input[type="text"], input[type="password"], select {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            color: #003DA5; /* Blue */
+        }
+        button {
+            background-color: #FFD700; /* Gold */
+            color: #003DA5; /* Blue */
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #003DA5; /* Blue */
+            color: #ffffff; /* White */
+        }
+        .hidden {
+            display: none;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            border: 2px solid #FFD700; /* Gold border */
+            background-color: white;
+            color: #003DA5; /* Blue */
+            overflow-x: auto; /* Allow horizontal scrolling on small screens */
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+            color: #003DA5; /* Blue */
+        }
+        th {
+            background-color: #FFD700; /* Gold */
+            color: #003DA5; /* Blue */
+        }
+        .user-info {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: #FFD700; /* Gold */
+            color: #003DA5; /* Blue */
+            padding: 10px;
+            border-radius: 5px;
+            display: none; /* Hidden by default */
+            text-align: center;
+        }
+        .login-failed {
+            color: #FF0000; /* Red */
+            font-style: italic;
+        }
+        .gpa-info {
+            color: #003DA5; /* Blue */
+            margin-top: 20px;
+        }
+        .transcript-info {
+            color: #003DA5; /* Blue for visibility */
+            margin-top: 10px;
+        }
+        @media (max-width: 600px) {
+            table {
+                display: block;
+                overflow-x: auto; /* Enable horizontal scrolling */
+                white-space: nowrap; /* Prevent text wrapping */
+            }
+            th, td {
+                font-size: 14px; /* Smaller font size for mobile */
+            }
+        }
+    </style>
+    <script>
+        function validateLogin() {
+            const username = document.getElementById("username").value;
+            const password = document.getElementById("password").value;
+
+            if (username === "KUJNO009" && password === "032101") {
+                document.getElementById("loginSection").classList.add("hidden");
+                document.getElementById("academicRecords").classList.remove("hidden");
+                document.getElementById("userInfo").classList.remove("hidden"); // Show user info
+            } else {
+                document.getElementById("loginFailed").classList.remove("hidden");
+            }
+        }
+
+        function showCourses() {
+            const semester = document.getElementById("semester").value;
+            const courseTable = document.getElementById("courseTable");
+            const gpaInfo = document.getElementById("gpaInfo");
+            courseTable.classList.add("hidden"); // Hide course table initially
+            gpaInfo.classList.add("hidden"); // Hide GPA info initially
+
+            if (semester === "Spring 2025") {
+                courseTable.classList.remove("hidden"); // Show course table for Spring 2025
+                gpaInfo.classList.remove("hidden"); // Show GPA info for Spring 2025
+            } else {
+                courseTable.classList.add("hidden"); // Hide course table for other semesters
+                gpaInfo.classList.add("hidden"); // Hide GPA info for other semesters
+            }
+        }
+
+        function showFinalGrades() {
+            document.getElementById("academicRecords").classList.add("hidden");
+            document.getElementById("finalGrades").classList.remove("hidden");
+            showCourses(); // Show the course list based on the selected semester
+        }
+
+        function showUnofficialTranscript() {
+            document.getElementById("academicRecords").classList.add("hidden");
+            document.getElementById("unofficialTranscript").classList.remove("hidden");
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Javelina Student Portal</h1>
+        
+        <!-- User Info Section -->
+        <div id="userInfo" class="user-info">
+            <p>Justin N. Ogeer</p>
+            <p>ID: K00577977</p>
+            <p>Undergraduate</p>
+        </div>
+
+        <!-- Login Section -->
+        <div id="loginSection">
+            <form onsubmit="event.preventDefault(); validateLogin();">
+                <input type="text" id="username" placeholder="Username" required>
+                <input type="password" id="password" placeholder="Password" required>
+                <button type="submit">Login</button>
+            </form>
+            <div id="loginFailed" class="login-failed hidden">
+                <em>Login failed. Please try again.</em>
+            </div>
+        </div>
+
+        <!-- Academic Records Section -->
+        <div id="academicRecords" class="hidden">
+            <h2>View Academic Records</h2>
+            <button onclick="showFinalGrades()">View Final Grades</button>
+            <button onclick="showUnofficialTranscript()">View Unofficial Transcript</button>
+        </div>
+
+        <!-- Final Grades Section -->
+        <div id="finalGrades" class="hidden">
+            <h1>Final Grades</h1>
+            <select id="semester" onchange="showCourses()">
+                <option value="">Select Semester</option>
+                <option value="Fall 2024">Fall 2024</option>
+                <option value="Winter 2024">Winter 2024</option>
+                <option value="Spring 2025">Spring 2025</option>
+                <option value="Summer 2025">Summer 2025</option>
+                <option value="Fall 2025">Fall 2025</option>
+            </select>
+
+            <div id="courseTable" class="hidden">
+                <table>
+                    <tr>
+                        <th>Course Title</th>
+                        <th>Grade</th>
+                    </tr>
+                    <tr>
+                        <td>Gen Inorganic Chem Lab I</td>
+                        <td>B</td>
+                    </tr>
+                    <tr>
+                        <td>Gen Inorganic Chemistry I</td>
+                        <td>B</td>
+                    </tr>
+                    <tr>
+                        <td>Introd to Computer Science</td>
+                        <td>A</td>
+                    </tr>
+                    <tr>
+                        <td>Rhetoric and Composition</td>
+                        <td>A</td>
+                    </tr>
+                    <tr>
+                        <td>Calculus I</td>
+                        <td>A</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div id="gpaInfo" class="gpa-info hidden">
+                <p><strong>Cumulative GPA:</strong> 3.75</p>
+                <p><strong>Total Credit Hours:</strong> 14</p>
+            </div>
+
+            <button onclick="document.getElementById('finalGrades').classList.add('hidden'); document.getElementById('academicRecords').classList.remove('hidden');">Back to Academic Records</button>
+        </div>
+
+        <!-- View Unofficial Transcript Section -->
+        <div id="unofficialTranscript" class="hidden">
+            <h2>View Unofficial Transcript</h2>
+            <table>
+                <tr>
+                    <th>Course</th>
+                    <th>Semester</th>
+                    <th>Grade</th>
+                    <th>Credit Hours</th>
+                    <th>Credits Attempted</th>
+                    <th>Credits Earned</th>
+                    <th>Quality Points</th>
+                </tr>
+                <tr>
+                    <td>Gen Inorganic Chem Lab I</td>
+                    <td>Spring 2025</td>
+                    <td>B</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>3.0</td>
+                </tr>
+                <tr>
+                    <td>Gen Inorganic Chemistry I</td>
+                    <td>Spring 2025</td>
+                    <td>B</td>
+                    <td>3</td>
+                    <td>3</td>
+                    <td>3</td>
+                    <td>9.0</td>
+                </tr>
+                <tr>
+                    <td>Introd to Computer Science</td>
+                    <td>Spring 2025</td>
+                    <td>A</td>
+                    <td>3</td>
+                    <td>3</td>
+                    <td>3</td>
+                    <td>12.0</td>
+                </tr>
+                <tr>
+                    <td>Rhetoric and Composition</td>
+                    <td>Spring 2025</td>
+                    <td>A</td>
+                    <td>3</td>
+                    <td>3</td>
+                    <td>3</td>
+                    <td>12.0</td>
+                </tr>
+                <tr>
+                    <td>Calculus I</td>
+                    <td>Spring 2025</td>
+                    <td>A</td>
+                    <td>4</td>
+                    <td>4</td>
+                    <td>4</td>
+                    <td>16.0</td>
+                </tr>
+            </table>
+            <p class="transcript-info"><strong>Total Credits Attempted:</strong> 14</p>
+            <p class="transcript-info"><strong>Total Credits Earned:</strong> 14</p>
+            <p class="transcript-info"><strong>Total Quality Points:</strong> 52.0</p>
+            <p class="transcript-info"><strong>Cumulative GPA:</strong> 3.75</p>
+            <button onclick="document.getElementById('unofficialTranscript').classList.add('hidden'); document.getElementById('academicRecords').classList.remove('hidden');">Back to Academic Records</button>
+        </div>
+    </div>
+</body>
+</html>
